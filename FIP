@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLIGHT IN PROGRESS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Orbitron', monospace;
+      background-color: #0e1117;
+      color: #f5f5f5;
+      margin: 0;
+      padding: 1rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    input[type="text"] {
+      width: 90%;
+      max-width: 400px;
+      padding: 0.8rem;
+      margin: 1rem auto;
+      display: block;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      background-color: #1e2633;
+      color: #f5f5f5;
+    }
+    button {
+      display: block;
+      margin: 0 auto 2rem;
+      padding: 0.8rem 2rem;
+      background-color: #f5f5f5;
+      color: #0e1117;
+      border: none;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .ticket {
+      text-align: center;
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 1rem;
+      background-color: #1e2633;
+      margin-bottom: 2rem;
+    }
+    .logbook {
+      margin-top: 1rem;
+    }
+    .log-entry {
+      background-color: #1e2633;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>What's your emotion today?</h1>
+  <input type="text" id="emotionInput" placeholder="e.g. grateful / excited / confused" />
+  <button onclick="handleEmotion()">Record</button>
+
+  <div class="ticket" id="ticket" style="display: none;"></div>
+
+  <div class="logbook">
+    <h2>LOGBOOK</h2>
+    <div id="log"></div>
+  </div>
+
+  <script>
+    const ticketDiv = document.getElementById("ticket");
+    const logDiv = document.getElementById("log");
+
+    function interpretEmotion(emotion, altitude) {
+  const emotionMap = {
+    grateful: "You felt thankful for something meaningful.",
+    excited: "Your heart raced with anticipation.",
+    confused: "You were navigating through mental turbulence.",
+    overwhelmed: "Too much altitude for today’s weather.",
+    hopeful: "A bright future ahead was in view.",
+    anxious: "Your thoughts hit pockets of turbulence.",
+    calm: "A steady and smooth flight today.",
+    melancholic: "Your heart drifted through slow, gray skies."
+  };
+  const base = emotionMap[emotion.toLowerCase()] || "You felt something meaningful today.";
+
+  let altitudeMessage = "";
+  if (altitude > 20000) {
+    altitudeMessage = "You soared above the clouds today.";
+  } else if (altitude > 15000) {
+    altitudeMessage = "You flew high with intensity and clarity.";
+  } else if (altitude > 10000) {
+    altitudeMessage = "You maintained a calm cruising altitude.";
+  } else if (altitude > 5000) {
+    altitudeMessage = "You stayed low, observant and grounded.";
+  } else {
+    altitudeMessage = "Your emotions kept you close to the ground today.";
+  }
+
+  return `${base} ${altitudeMessage}`;
+};
+      return map[emotion.toLowerCase()] || "You felt something meaningful today.";
+    }
+
+    function handleEmotion() {
+      const emotion = document.getElementById("emotionInput").value.trim();
+      if (!emotion) return;
+
+      const altitude = Math.floor(Math.random() * 20000) + 2000;
+      const latitude = (Math.random() * 180 - 90).toFixed(2);
+      const longitude = (Math.random() * 360 - 180).toFixed(2);
+      const interpretation = interpretEmotion(emotion, altitude);
+      const date = new Date().toLocaleString();
+
+      ticketDiv.style.display = "block";
+      ticketDiv.innerHTML = `
+        <strong>FLIGHT IN PROGRESS</strong><br><br>
+        ${altitude.toLocaleString()} FT<br>
+        LATITUDE ${latitude}° | LONGITUDE ${longitude}°<br><br>
+        <em>${interpretation}</em><br><br>
+        <hr style='margin: 1rem 0; border: none; border-top: 1px dashed #888;'>
+        <small style='color: #ccc;'>Altitude (FT): Represents how intense the feeling is.<br>
+        Latitude & Longitude: Emotional position in your inner sky.<br>
+        Inspired by Jeppesen flight charts used by real pilots.<br><br>
+        Suggested next route: Take a moment to reflect and log again tomorrow.</small>
+      `;
+
+      const logEntry = document.createElement("div");
+      logEntry.className = "log-entry";
+      logEntry.innerHTML = `<strong>${emotion.toUpperCase()}</strong><br>${interpretation}<br>${latitude}°, ${longitude}°<br>${altitude.toLocaleString()} FT`;
+      logDiv.prepend(logEntry);
+    }
+  </script>
+<div style="text-align:center; margin-top: 3rem;">
+  <h3>Share your flight!</h3>
+  <p style="color: #aaa;">Screenshot your ticket and share it to Instagram Story</p>
+  <button onclick="alert('Image export coming soon')" style="padding: 0.7rem 1.5rem; font-size: 1rem; border-radius: 8px; border: none; background-color: #f5f5f5; color: #0e1117; cursor: pointer;">Save to Gallery</button>
+</div>
+</body>
+</html>
